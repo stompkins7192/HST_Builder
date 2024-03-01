@@ -633,7 +633,7 @@ make_propane = function(stub, ps = 0, pad, ext = 2, RAtarg, DECtarg, rad, camera
                                   magzero_in = frame_info$MAGZERO, #pass in vector of magzero_in
                                   cores = cores, cores_warp = cores_warp,
                                   keyvalues_out = target_WCS_test,
-                                  magzero_out = 23.9, exp_list = rep(1, length(frame_info$EXPTIME)))
+                                  magzero_out = 23.9, exp_list = frame_info$EXPTIME)
   
   
   
