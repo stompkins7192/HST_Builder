@@ -263,11 +263,11 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
                             
                  
                             #some testing to remove SIP CTYPE flags
-                            g = img$keyvalues
-                            class(g) = "list"
-                            badvals = which(str_detect(g, "-SIP") == TRUE)
+                           # g = img$keyvalues
+                            #class(g) = "list"
+                          #  badvals = which(str_detect(g, "-SIP") == TRUE)
                             #g = g[-c(badvals)]
-                            img$keyvalues = img$keyvalues[-c(badvals)]
+                           # img$keyvalues = img$keyvalues[-c(badvals)]
                             img$keyvalues$EQUINOX = foo[[1]]$keyvalues$EQUINOX
                             
                             
