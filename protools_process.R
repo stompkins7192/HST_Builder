@@ -359,8 +359,7 @@ make_grid = function(stub, ext = 2, pad = 0, recursive = TRUE, ps = 0,
   
   path = stub
   pad = 0  #force set edge pad to zero. Depreciated argument which originally padded borders to avoid chopping data out.
-  #From StackExchange...Custom Round Function Because R's base round(..) rounds 0.005 to 0. We can't
-  #let that happen!
+ 
 
   p1 = RAtarg
   p2 = DECtarg
@@ -406,7 +405,7 @@ make_grid = function(stub, ext = 2, pad = 0, recursive = TRUE, ps = 0,
   
   #User provided pixel scale (in arcseconds per pixel)
   ps = ps
-  #if user does NOT provide pixel scale, it will be calculated from the files.
+  #if user does NOT provide pixel scale, it will be calculated from the FITS files.
   if(ps == 0){
     ps = sapply(sci[1:length(l1)], function(x){pixscale(x$keyvalues)}) #get pixscale from each image
     ps = mean(ps) #calculate mean pixel scale
