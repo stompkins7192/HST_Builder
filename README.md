@@ -12,12 +12,12 @@ Rwcs version 1.8.4 or newer, found at https://github.com/asgr/Rwcs
 
 R package dependencies which can be installed directly from CRAN
 
-stringr version 1.5.1 or newer
-Cairo version 1.6-2 or newer
-data.table version 1.15.0 or newer
-doParallel version 1.0.17 or newer
-pracma version 2.4.4 or newer
-Cairo - Version 1.6-2 or newer
+stringr version 1.5.1 or newer,
+Cairo version 1.6-2 or newer,
+data.table version 1.15.0 or newer,
+doParallel version 1.0.17 or newer,
+pracma version 2.4.4 or newer,
+Cairo - Version 1.6-2 or newer,
 statip - Version 0.2.3 or newer
 
 
