@@ -10,7 +10,6 @@ magicaxis version 2.4.5 or newer, found at https://github.com/asgr/magicaxis
 Rfits version 1.10.9 or newer, found at https://github.com/asgr/Rfits
 Rwcs version 1.8.4 or newer, found at https://github.com/asgr/Rwcs
 
-
 R package dependencies which can be installed directly from CRAN
 
 stringr version 1.5.1 or newer
@@ -18,6 +17,8 @@ Cairo version 1.6-2 or newer
 data.table version 1.15.0 or newer
 doParallel version 1.0.17 or newer
 pracma version 2.4.4 or newer
+Cairo - Version 1.6-2 or newer
+statip - Version 0.2.3 or newer
 
 
 Python dependencies
@@ -32,14 +33,18 @@ astropy
 
 Two example calls are provided below. 
 
- A small field using WFC3UVIS data and FLC data products.
+ A small field using WFC3UVIS data and FLC data products on the most common WCS in the list.
 
-    python3 protool.py --RA 54.206 --DEC -53.869 --RAD 0.05 --TELESCOPE 'HST' --CAMERA 'WFC3/UVIS' --FILTER 'F606W' --STAGE 'FLC' --PAD 0 --PS 0 --ASK 'True' --NCPU 1 --EXT 2 --PS 0 --CORES_WARP 1 --CORES 1 --REM 'TRUE'
+    python3 protool.py --RA 54.206 --DEC -53.869 --RAD 0.05 --TELESCOPE 'HST' --CAMERA 'WFC3/UVIS' --FILTER 'F606W' --STAGE 'FLC' --PAD 0 --PS 0 --ASK 'True' --NCPU 1 --EXT 2 --PS 0 --CORES_WARP 1 --CORES 1 --REM 'TRUE' --WCS 'N'
 
 
- A small field using WFC3IR data products and FLT data products.
+ A small field using WFC3IR data products and FLT data products on the most common WCS in the list.
 
- python3 protool.py --RA 216.7736 --DEC 57.88066 --RAD 0.01 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F140W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 1 --EXT 2  --CORES_WARP 1 --CORES 1 --REM 'TRUE'
+ python3 protool.py --RA 216.7736 --DEC 57.88066 --RAD 0.01 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F140W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 1 --EXT 2  --CORES_WARP 1 --CORES 1 --REM 'TRUE' --WCS 'N'
+
+
+
+The same
 
 
  Arguments
@@ -74,5 +79,10 @@ Two example calls are provided below.
    CORES    --  The cores argument to ProPane. Integer.
 
    REM  -- Remove indivudual skymaps after ProPane runs? Default true.   'TRUE' or 'FALSE'   . Must be in ALL CAPS because R.
+
+   WCS -- Target WCS system. Default of 'N' will find see the most common WCS system in the headers and use that. Code will fail if an invalid system is chosen or no matches are found. May require research on older WCS systems if desired.
+
+
+   The WCS argument must be a substring/string that will be found in the WCSNAME header keyword. The 'GAIAeDR3' string should appear in GAIA DR3 alligned WCS. Though one can subsest to "DR3" and it will look for the "DR3" substring in the list of WCSNAMES. 
 
 
