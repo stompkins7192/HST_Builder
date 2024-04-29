@@ -144,7 +144,7 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
   }
   
   if(length(inlist) != Nimages){
-    cat(paste0("Using ", Nimages, " of ", length(inlist), " images based on target WCS."), "\n")
+    cat(paste0("Using ", length(inlist), " of ", length(Nimages), " images based on target WCS."), "\n")
     
   }
  
