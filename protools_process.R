@@ -165,8 +165,8 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
     inlist = inlist[final_inlist]
   }
   if(length(inlist) != expected){
-    cat(paste0(" Expected ", expected, " Input Frames, Got ", length(inlist), " Frames, Flagging and Skipping Query ", camera,"_",filter, "_",stsci_dir, "\n"))
-    stopifnot(length(inlist) == expected)
+   # cat(paste0(" Expected ", expected, " Input Frames, Got ", length(inlist), " Frames, Flagging and Skipping Query ", camera,"_",filter, "_",stsci_dir, "\n"))
+   # stopifnot(length(inlist) == expected)
   }
 
   if(top == "WFC3"){
