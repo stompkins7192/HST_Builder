@@ -40,7 +40,7 @@ Two example calls are provided below.
 
  A small field using WFC3IR data products and FLT data products on the most common WCS in the list.
 
-python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F110W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 3 --EXT 2 --CORES_WARP 3 --CORES 1 --REM 'TRUE' --WCS 'N'
+  python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F110W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 3 --EXT 2 --CORES_WARP 3 --CORES 1 --REM 'TRUE' --WCS 'N'
 
 
 
