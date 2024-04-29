@@ -57,6 +57,8 @@ parser.add_argument('--REM', type=str, nargs="*",
 
 parser.add_argument('--ASK', type=str, nargs="*", help='Ask User For Confirmation To Download Files?', default = ["True"])
 
+parser.add_argument('--WCS', type=str, nargs="*", help='Identifier for target WCS system. Default is most frequent, read the docs.', default = ["N"])
+
 args = parser.parse_args()
 
 def query(ref_dir, ra, dec, rad, telescope, camera, filter, stage,  ASK, dl_products=False):
@@ -242,7 +244,8 @@ if __name__ == "__main__":
             "PS" : args.PS,
             "CORES_WARP" : args.CORES_WARP,
             "CORES" : args.CORES,
-            "REM" : args.REM
+            "REM" : args.REM,
+            "WCS" : args.WCS
         }
         
 
@@ -260,12 +263,12 @@ wd = wd + '/'
 query(ref_dir, args.RA, args.DEC, args.RAD, args.TELESCOPE[0], args.CAMERA[0], args.FILTER[0], args.STAGE[0], args.ASK[0], dl_products=True)
 
 
-print("doing something  at  location    " + str(args.RA) + ' ' + str(args.DEC))
+print("Looking at location    " + str(args.RA) + ' ' + str(args.DEC) + ' radius ' + str(args.RAD))
 
 cmd2 = ('Rscript ' + wd + 'protools_process.R '+ str(wd)  + ' ' + str(round(args.RA, 2)) + ' ' 
  + str(round(args.DEC, 2)) + ' ' + str(round(args.RAD, 2)) + ' ' + str(args.CAMERA) + ' ' + str(args.FILTER) + ' ' + str(args.STAGE)
  + ' ' + str(args.TELESCOPE) + ' ' + str(args.NCPU) + ' ' + str(args.PAD) + ' ' + str(args.EXT)+ ' ' + str(args.PS) 
-       + ' ' + str(args.CORES_WARP) + ' ' + str(args.CORES) + ' ' + str(args.REM))      
+       + ' ' + str(args.CORES_WARP) + ' ' + str(args.CORES) + ' ' + str(args.REM) + ' ' + str(args.WCS))      
 
 cmd2 = cmd2.replace('[', '').replace(']', '')
 print(cmd2)

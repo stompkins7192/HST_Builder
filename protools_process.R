@@ -14,7 +14,7 @@ library(ProFound, quietly = TRUE)
 library(ProPane, quietly = TRUE)
 library(doParallel, quietly = TRUE)
 library(Cairo, quietly = TRUE)
-
+library(statip, quietly = TRUE)
 start_time =  Sys.time()
 
 
@@ -35,6 +35,7 @@ ps = as.numeric(inputargs[12]) #Pixel Scale. If set to zero, Rfits will calculat
 cores_warp = as.numeric(inputargs[13]) # cores_warp argument for ProPane.
 cores = as.numeric(inputargs[14]) #number of cores for ProPane cores argument. Product of cores_warp and cores must be < # of images.
 rem = as.logical(inputargs[15])  #Remove maps at the end? Useful if we only want the ProPane.
+targ_wcs = as.character(inputargs[16]) #new feature. Target WCS. Must be a valid value or substring from the "WCSNAME" header keyword.
 
 #From StackExchange...Custom Round Function Because R's base round(..) rounds 0.005 to 0. We can't
 #let that happen!
@@ -50,7 +51,7 @@ round2 = function(x, digits) {
 
 
 make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filter, stage,
-                     telescope, Ncpu = 2, pad = 0){
+                     telescope, Ncpu = 2, pad = 0, targ_wcs, ext = 2){
   
   
   #before re-allocating stub, set wd files we will source(..)
@@ -118,6 +119,38 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
   #Rfits_make_list for all "SCI" and "DQ" extensions
   #goes without saying the number of DQ arrays and SCI arrays must be the same
   inlist = list.files(dataloc, pattern = (".fits"), full.names = TRUE, recursive = TRUE)
+  
+  Nimages = length(inlist)
+  
+  
+  gdr3 = Rfits_key_scan(inlist, keylist = "WCSNAME", extlist = ext)
+  good = which(str_detect(gdr3$WCSNAME, targ_wcs) == TRUE)
+  
+  
+  #default behavior.
+  #find most common WCS name if "N" (ignore option) is given and use that.
+  if(targ_wcs == "N"){
+    targ_wcs = mfv(gdr3$WCSNAME)[1] #ensures we choose "fairly" if there is a tie? MFV can't handle multiple
+    #modes.
+    good = which(str_detect(gdr3$WCSNAME, targ_wcs) == TRUE)
+    inlist = inlist[good]
+    
+    cat(paste0("User elected to use most frequent WCS system in query. Using ", targ_wcs, " WCSNAME!!"), "\n")
+  }
+  
+  if(length(inlist) == 0){
+    cat(paste0("No Images Exist With Your Target WCS, Breaking Out!"), "\n")
+   
+  }
+  
+  if(length(inlist) != Nimages){
+    cat(paste0("Using ", Nimages, " of ", length(inlist), " images based on target WCS."), "\n")
+    
+  }
+ 
+  inlist = inlist[good]
+  cat(paste0("Using ", Nimages, " of ", length(inlist), " images based on target WCS."), "\n")
+  if(length(inlist) != 0){
   final_inlist = grep(inlist, pattern ="profound", invert = TRUE) #make sure we do not read in existing maps.
   
   if(length(final_inlist) != 0){
@@ -185,9 +218,7 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
           .packages = c("RANN", "NISTunits", "pracma", "Rcpp", "Rfits", "stringr",
                         "magicaxis", "data.table",
                         "Rwcs", "MASS", "ProFound", "celestial")) %dopar% {
-                          
-                          # Adding EQUINOX keyword to header temporarily and removing SIP projection terms to stop a barrage of warnings.
-                          
+             
                           #    cat(paste(images[[i]]$filename, "\n"))
                           if(top == "WFC3"){               
                             foo = Rfits_read_all(images[[i]]$filename, zap=zap)
@@ -263,11 +294,7 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
                             
                  
                             #some testing to remove SIP CTYPE flags
-                           # g = img$keyvalues
-                            #class(g) = "list"
-                          #  badvals = which(str_detect(g, "-SIP") == TRUE)
-                            #g = g[-c(badvals)]
-                           # img$keyvalues = img$keyvalues[-c(badvals)]
+
                             img$keyvalues$EQUINOX = foo[[1]]$keyvalues$EQUINOX
                             
                             
@@ -343,6 +370,7 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
   
   invisible(stopCluster(cl))
   #end of function  
+  }
 }
 
 
@@ -359,7 +387,8 @@ make_grid = function(stub, ext = 2, pad = 0, recursive = TRUE, ps = 0,
   
   path = stub
   pad = 0  #force set edge pad to zero. Depreciated argument which originally padded borders to avoid chopping data out.
- 
+  #From StackExchange...Custom Round Function Because R's base round(..) rounds 0.005 to 0. We can't
+  #let that happen!
 
   p1 = RAtarg
   p2 = DECtarg
@@ -394,6 +423,9 @@ make_grid = function(stub, ext = 2, pad = 0, recursive = TRUE, ps = 0,
   l1 = list.files(maploc, pattern = "profound", full.names = TRUE, recursive = TRUE)  #path to where your FITS files are located
 
   final_inlist = grep(l1, pattern =filter, invert = FALSE, ignore.case = TRUE) #Filter by filter.
+  
+  cat(paste0("looking for files final_inlist  ", maploc), "\n")
+  
   if(length(final_inlist) != 0){
     l1 = l1[final_inlist]
   }
@@ -405,7 +437,7 @@ make_grid = function(stub, ext = 2, pad = 0, recursive = TRUE, ps = 0,
   
   #User provided pixel scale (in arcseconds per pixel)
   ps = ps
-  #if user does NOT provide pixel scale, it will be calculated from the FITS files.
+  #if user does NOT provide pixel scale, it will be calculated from the files.
   if(ps == 0){
     ps = sapply(sci[1:length(l1)], function(x){pixscale(x$keyvalues)}) #get pixscale from each image
     ps = mean(ps) #calculate mean pixel scale
@@ -719,7 +751,7 @@ make_propane = function(stub, ps = 0, pad, ext = 2, RAtarg, DECtarg, rad, camera
 
 #Function calls
 make_maps(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filter, stage, telescope,
-          Ncpu, pad)  
+          Ncpu, pad, targ_wcs)  
 
 make_grid(stub, ext = 2, pad, recursive = TRUE, ps, RAtarg, DECtarg, rad, camera, filter, stage,
           telescope)
