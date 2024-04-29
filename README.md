@@ -35,17 +35,18 @@ Two example calls are provided below.
 
  A small field using WFC3UVIS data and FLC data products on the most common WCS in the list.
 
-    python3 protool.py --RA 54.206 --DEC -53.869 --RAD 0.05 --TELESCOPE 'HST' --CAMERA 'WFC3/UVIS' --FILTER 'F606W' --STAGE 'FLC' --PAD 0 --PS 0 --ASK 'True' --NCPU 1 --EXT 2 --PS 0 --CORES_WARP 1 --CORES 1 --REM 'TRUE' --WCS 'N'
+    python3 protool.py --RA 54.206 --DEC -53.869 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 'WFC3/UVIS' --FILTER 'F606W' --STAGE 'FLC' --PAD 0 --PS 0 --ASK 'True' --NCPU 1 --EXT 2 --PS 0 --CORES_WARP 1 --CORES 1 --REM 'TRUE' --WCS 'N'
 
 
  A small field using WFC3IR data products and FLT data products on the most common WCS in the list.
 
- python3 protool.py --RA 216.7736 --DEC 57.88066 --RAD 0.01 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F140W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 1 --EXT 2  --CORES_WARP 1 --CORES 1 --REM 'TRUE' --WCS 'N'
+python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F110W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 3 --EXT 2 --CORES_WARP 3 --CORES 1 --REM 'TRUE' --WCS 'N'
 
 
 
-The same
+The same example but this time selecting for GAIA DR3
 
+python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F110W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 3 --EXT 2 --CORES_WARP 3 --CORES 1 --REM 'TRUE' --WCS 'DR3'
 
  Arguments
 
