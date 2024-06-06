@@ -44,9 +44,9 @@ Two example calls are provided below.
 
 
 
-The same example but this time selecting for GAIA DR3
+The same example but this time selecting for  **IDC_w3m18525i-FIT_REL_GAIAeDR3**
 
-python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F110W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 3 --EXT 2 --CORES_WARP 3 --CORES 1 --REM 'TRUE' --WCS 'DR3'
+python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 'WFC3/IR' --FILTER 'F110W' --STAGE 'FLT' --PAD 0 --PS 0 --ASK 'True' --NCPU 3 --EXT 2 --CORES_WARP 3 --CORES 1 --REM 'TRUE' --WCS 'IDC_w3m18525i-FIT_REL_GAIAeDR3'
 
  Arguments
 
@@ -81,9 +81,12 @@ python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 
 
    REM  -- Remove indivudual skymaps after ProPane runs? Default true.   'TRUE' or 'FALSE'   . Must be in ALL CAPS because R.
 
-   WCS -- Target WCS system. Default of 'N' will find see the most common WCS system in the headers and use that. Code will fail if an invalid system is chosen or no matches are found. May require research on older WCS systems if desired.
+   WCS -- Target WCS system. Default of 'N' will find see the most common WCS system in the headers and use that. Code will fail if an invalid system is chosen or no matches are found. May require research on older WCS systems if desired. 
 
+   The WCS argument must be a substring/string that will be found in the WCSNAME header keyword. The 'GAIAeDR3' string should appear in GAIA DR3 alligned WCS. Though one can subsest to "DR3" and it will look for the "DR3" substring in the list of WCSNAMES. See warning below.
+   
+   I have seen examples where sub-string matching such as **--WCS 'foo'** will still cause errors as different matches are found, eg, foo_2 and foo_3. 
+   Best to look at input frames and get the entire WCSNAME keyword and not a sub-string from it. For example, look at the WCSNAME inputs and use  **IDC_w3m18525i-FIT_REL_GAIAeDR3 ** instead of **"GAIAeDR3"** as it is still technically possible to have multiple matches.
 
-   The WCS argument must be a substring/string that will be found in the WCSNAME header keyword. The 'GAIAeDR3' string should appear in GAIA DR3 alligned WCS. Though one can subsest to "DR3" and it will look for the "DR3" substring in the list of WCSNAMES. 
 
 
