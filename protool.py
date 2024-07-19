@@ -157,14 +157,23 @@ def query(ref_dir, ra, dec, rad, telescope, camera, filter, stage,  ASK, dl_prod
                 Nfiles = len(products_stage2['size'][ind])
                 
                 print(f"You are about to download {Nfiles} images composing of {TBD} GB of Data.")
-            while True:
+            while ASK == "True":
                 confirmation = input("Do you want to proceed with the download? (y/n): ").lower()
                 if confirmation == "y":
                     break
                 elif confirmation == "n":
                     print("Download cancelled by user.", file=sys.stderr)
                     exit(-1)
-
+            
+            
+            if ASK == "False":
+                ind = np.unique(products_stage2['obsID'], return_index = True)[1]
+              #  print(ind)
+                TBD = np.round(np.sum(products_stage2['size'][ind]) / 10**9, decimals=2)
+                Nfiles = len(products_stage2['size'][ind])
+                print(f"Downloading {Nfiles} images composing of {TBD} GB of Data.")
+                
+            
             os.makedirs(dl_dir, exist_ok=True)
 
             sh_files = glob.glob(dl_dir + "*.sh")
