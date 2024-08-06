@@ -88,5 +88,8 @@ python3 protool.py --RA 10.64 --DEC -11.06 --RAD 0.1 --TELESCOPE 'HST' --CAMERA 
    I have seen examples where sub-string matching such as **--WCS 'foo'** will still cause errors as different matches are found, eg, foo_2 and foo_3. 
    Best to look at input frames and get the entire WCSNAME keyword and not a sub-string from it. For example, look at the WCSNAME inputs and use  **IDC_w3m18525i-FIT_REL_GAIAeDR3 ** instead of **"GAIAeDR3"** as it is still technically possible to have multiple matches.
 
+_
+   Note - Experienced users may wish to change the ProFound settings for sky-subtraction. For example, in NUV data from the F225W and F275W filters on WFC3 sources are difficult to detect and one may wish to turn off sky subtraction by setting the sky argument in profoundProFound to 0. This can be done in prfound_call.R where the profoundProFound function is called. The settings are currenty optimized based
+   the recovery of input sky values from simulated images, see our paper (Windhorst et al. 2022), arXiv:2205.06214  , for details._ 
 
 
