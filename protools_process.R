@@ -170,7 +170,7 @@ make_maps = function(stub, recursive = TRUE, RAtarg, DECtarg, rad, camera, filte
   }
 
   if(top == "WFC3"){
-    zap=c('LOOKUP','DP[1-2]')
+    zap=c('LOOKUP', 'Lookup', 'DP[1-2]')
   }
   if(top == "ACS"){  
     #Zap a big list of depreciated keywords.
